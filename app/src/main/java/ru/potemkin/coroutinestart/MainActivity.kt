@@ -1,11 +1,11 @@
-package ru.sumin.coroutinestart
+package ru.potemkin.coroutinestart
 
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import ru.sumin.coroutinestart.databinding.ActivityMainBinding
+import ru.potemkin.coroutinestart.databinding.ActivityMainBinding
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
