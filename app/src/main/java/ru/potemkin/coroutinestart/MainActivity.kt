@@ -3,6 +3,7 @@ package ru.potemkin.coroutinestart
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Message
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,12 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
+    private val handler = object : Handler(){
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            print("HANDLED MESSAGE $msg")
+        }
+    }
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -22,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         binding.buttonLoad.setOnClickListener {
             loadData()
         }
+        handler.sendMessage(Message.obtain(handler,0,17))
     }
 
     private fun loadData() {
@@ -40,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadCity(callback: (String) -> Unit) {
         thread {
             Thread.sleep(5000)
-            Handler(Looper.getMainLooper()).post {
+            runOnUiThread{
                 callback.invoke("Moscow")
             }
         }
@@ -48,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadTemperature(city: String, callback: (Int) -> Unit) {
         thread {
-            Handler(Looper.getMainLooper()).post {
+            runOnUiThread{
                 Toast.makeText(
                     this,
                     getString(R.string.loading_temperature_toast, city),
@@ -56,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
             Thread.sleep(5000)
-            Handler(Looper.getMainLooper()).post {
+            runOnUiThread{
                 callback.invoke(17)
             }
         }
