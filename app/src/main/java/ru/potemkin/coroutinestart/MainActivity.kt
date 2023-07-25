@@ -12,7 +12,6 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
-    private val handler = Handler()
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -41,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadCity(callback: (String) -> Unit) {
         thread {
             Thread.sleep(5000)
-            handler.post {
+            Handler(Looper.getMainLooper()).post {
                 callback.invoke("Moscow")
             }
         }
@@ -49,9 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadTemperature(city: String, callback: (Int) -> Unit) {
         thread {
-            Looper.prepare()
-            Handler()
-            handler.post {
+            Handler(Looper.getMainLooper()).post {
                 Toast.makeText(
                     this,
                     getString(R.string.loading_temperature_toast, city),
@@ -59,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
             Thread.sleep(5000)
-            handler.post {
+            Handler(Looper.getMainLooper()).post {
                 callback.invoke(17)
             }
         }
