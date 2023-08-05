@@ -15,11 +15,8 @@ class MainViewModel : ViewModel() {
             var count = 0
             for (i in 0 until 100_000_000) {
                 for (j in 0 until 100) {
-                    if(isActive){
-                        count++
-                    } else{
-                        throw CancellationException()
-                    }
+                    ensureActive()
+                    count++
                 }
             }
             Log.d(LOG_TAG, "Finished:${System.currentTimeMillis() - before}")
